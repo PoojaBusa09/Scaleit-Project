@@ -1,0 +1,19 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: scaleit-app
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: scaleit
+  template:
+    metadata:
+      labels:
+        app: scaleit
+    spec:
+      containers:
+      - name: scaleit
+        image: udaykonda/scaleit:latest
+        ports:
+        - containerPort: 80
