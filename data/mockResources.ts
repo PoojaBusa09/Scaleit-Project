@@ -1,0 +1,11 @@
+import { Resource } from '../features/resources/types.ts';
+
+export const MOCK_RESOURCES: Resource[] = [
+    { id: 'r1', title: 'The Ultimate Guide to SaaS Pricing', description: 'Learn how to price your SaaS product effectively.', type: 'tool', thumbnailUrl: 'https://images.unsplash.com/photo-1556740738-b6a63e27c4df?w=400', author: 'Pinnacle Global Network', dateAdded: '2025-06-10', tags: ['Strategy', 'Cash Flow'] },
+    { id: 'r2', title: 'Mastering High-Performing Teams', description: 'A video course on building and leading teams.', type: 'video', thumbnailUrl: 'https://images.unsplash.com/photo-1552664730-d307ca884978?w=400', author: 'Jordan Lee', dateAdded: '2025-06-15', tags: ['Leadership', 'Alliance'] },
+    { id: 'r3', title: 'Quarterly Financial Planning Template', description: 'A spreadsheet to help you plan your finances.', type: 'tool', thumbnailUrl: 'https://images.unsplash.com/photo-1554224155-1696413565d3?w=400', author: 'Pinnacle Global Network', dateAdded: '2025-05-20', tags: ['Cash Flow', 'Execution'] },
+    { id: 'r4', title: 'The Innovation Playbook', description: 'Strategies for fostering innovation within your startup.', type: 'tool', thumbnailUrl: 'https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=400', author: 'Alexandre Dubois', dateAdded: '2025-07-01', tags: ['Innovation', 'Strategy'] },
+    { id: 'r5', title: 'Scaling Your Tech Stack', description: 'How to choose the right technology for massive growth.', type: 'video', thumbnailUrl: 'https://images.unsplash.com/photo-1518770660439-4636190af475?w=400', author: 'Pinnacle Global Network', dateAdded: '2025-07-05', tags: ['Technology', 'Execution'] },
+    { id: 'r6', title: 'Leadership Communication Workshop', description: 'Enhance your leadership presence and communication skills.', type: 'video', thumbnailUrl: 'https://images.unsplash.com/photo-1517048676732-d65bc937f952?w=400', author: 'Jordan Lee', dateAdded: '2025-07-10', tags: ['Leadership', 'Alliance'] },
+    { id: 'r7', title: 'Operational Excellence Checklist', description: 'A comprehensive checklist for optimizing your business operations.', type: 'tool', thumbnailUrl: 'https://images.unsplash.com/photo-1454165833767-027eeef1551b?w=400', author: 'Pinnacle Global Network', dateAdded: '2025-07-12', tags: ['Execution', 'Alliance'] },
+];
