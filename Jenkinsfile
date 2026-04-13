@@ -5,6 +5,7 @@ pipeline {
         IMAGE_NAME = 'busapooja/my-node-app'
         TAG = 'latest'
         CONTAINER_NAME = 'my-node-container'
+         KUBECONFIG = 'C:\\ProgramData\\Jenkins\\.kube\\config'
     }
 
     stages {
