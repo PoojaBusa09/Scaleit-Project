@@ -59,7 +59,7 @@ pipeline {
         stage('Deploy') {
             steps {
                 bat '''
-                docker run -d -p 8081:80 --name %CONTAINER_NAME% %IMAGE_NAME%:%TAG%
+                docker run -d -p 9096:80 --name %CONTAINER_NAME% %IMAGE_NAME%:%TAG%
                 '''
             }
         }
