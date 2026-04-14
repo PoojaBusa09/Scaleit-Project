@@ -77,10 +77,12 @@ pipeline {
         }
 
         stage('Verify Kubernetes') {
-            steps {
-                bat "kubectl get nodes"
-            }
-        }
+    steps {
+        bat 'echo %KUBECONFIG%'
+        bat 'kubectl config view'
+        bat 'kubectl get nodes'
+    }
+}
 
         stage('Deploy to Kubernetes') {
             steps {
