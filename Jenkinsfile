@@ -24,11 +24,18 @@ pipeline {
 stage('SonarQube') {
     steps {
         withSonarQubeEnv('SonarQubeServer') {
-            bat """
-            mvn sonar:sonar ^
-            -Dsonar.projectKey=scaleit-project ^
-            -Dsonar.projectName="Scaleit Project"
-            """
+            withCredentials([string(credentialsId: 'SONAR_TOKEN', variable: 'SONAR_TOKEN')]) {
+                script {
+                    def scannerHome = tool 'SonarScanner'
+                    bat """
+                    ${scannerHome}\\bin\\sonar-scanner ^
+                    -Dsonar.projectKey=scaleit-project ^
+                    -Dsonar.projectName="Scaleit Project" ^
+                    -Dsonar.sources=. ^
+                    -Dsonar.login=%SONAR_TOKEN%
+                    """
+                }
+            }
         }
     }
 }
