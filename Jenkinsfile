@@ -38,7 +38,21 @@ pipeline {
                     }
                 }
             }
+        }stage('SonarQube') {
+    steps {
+        withSonarQubeEnv('SonarQubeServer') {
+            script {
+                def scannerHome = tool 'SonarScanner'
+                bat """
+                ${scannerHome}\\bin\\sonar-scanner ^
+                -Dsonar.projectKey=scaleit-project ^
+                -Dsonar.projectName="Scaleit Project" ^
+                -Dsonar.sources=.
+                """
+            }
         }
+    }
+}
 
         stage('Docker Build') {
             steps {
