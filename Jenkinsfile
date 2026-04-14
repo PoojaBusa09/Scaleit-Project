@@ -21,20 +21,17 @@ pipeline {
                 echo 'Running tests...'
             }
         }
-        stage('SonarQube Analysis') {
-            steps {
-                withSonarQubeEnv('SonarQubeServer') {
-                    bat '''
-                    sonar-scanner ^
-                    -Dsonar.projectKey=my-node-app ^
-                    -Dsonar.projectName=my-node-app ^
-                    -Dsonar.sources=. ^
-                    -Dsonar.host.url=http://localhost:9000 ^
-                    -Dsonar.login=%SONAR_TOKEN%
-                    '''
-                }
-            }
+stage('SonarQube') {
+    steps {
+        withSonarQubeEnv('SonarQubeServer') {
+            bat """
+            mvn sonar:sonar ^
+            -Dsonar.projectKey=scaleit-project ^
+            -Dsonar.projectName="Scaleit Project"
+            """
         }
+    }
+}
 
 
         stage('Docker Build') {
