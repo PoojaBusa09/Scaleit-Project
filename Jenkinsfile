@@ -5,7 +5,7 @@ pipeline {
         IMAGE_NAME = 'busapooja/my-node-app'
         TAG = 'latest'
         CONTAINER_NAME = 'my-node-container'
-         KUBECONFIG = 'C:\\ProgramData\\Jenkins\\.kube\\config'
+        KUBECONFIG = 'C:\\ProgramData\\Jenkins\\.kube\\config'
     }
 
     stages {
@@ -21,25 +21,24 @@ pipeline {
                 echo 'Running tests...'
             }
         }
-stage('SonarQube') {
-    steps {
-        withSonarQubeEnv('SonarQubeServer') {
-            withCredentials([string(credentialsId: 'SONAR_TOKEN', variable: 'SONAR_TOKEN')]) {
-                script {
-                    def scannerHome = tool 'SonarScanner'
-                    bat """
-                    ${scannerHome}\\bin\\sonar-scanner ^
-                    -Dsonar.projectKey=scaleit-project ^
-                    -Dsonar.projectName="Scaleit Project" ^
-                    -Dsonar.sources=. ^
-                    -Dsonar.login=%SONAR_TOKEN%
-                    """
+
+        stage('SonarQube') {
+            steps {
+                withSonarQubeEnv('SonarQubeServer') {
+                    script {
+                        def scannerHome = tool 'SonarScanner'
+                        bat """
+                        ${scannerHome}\\bin\\sonar-scanner ^
+                        -Dsonar.projectKey=scaleit-project ^
+                        -Dsonar.projectName="Scaleit Project" ^
+                        -Dsonar.sources=. ^
+                        -Dsonar.host.url=%SONAR_HOST_URL% ^
+                        -Dsonar.login=%SONAR_AUTH_TOKEN%
+                        """
+                    }
                 }
             }
         }
-    }
-}
-
 
         stage('Docker Build') {
             steps {
@@ -47,20 +46,19 @@ stage('SonarQube') {
             }
         }
 
-                        stage('Docker Login') {
-    steps {
-        withCredentials([usernamePassword(
-            credentialsId: 'docker-hub-creds',
-            usernameVariable: 'DOCKER_USER',
-            passwordVariable: 'DOCKER_PASS'
-        )]) {
-            bat """
-            docker login -u %DOCKER_USER% -p %DOCKER_PASS%
-            """
+        stage('Docker Login') {
+            steps {
+                withCredentials([usernamePassword(
+                    credentialsId: 'docker-hub-creds',
+                    usernameVariable: 'DOCKER_USER',
+                    passwordVariable: 'DOCKER_PASS'
+                )]) {
+                    bat """
+                    docker login -u %DOCKER_USER% -p %DOCKER_PASS%
+                    """
+                }
+            }
         }
-    }
-}
-
 
         stage('Docker Push') {
             steps {
@@ -70,26 +68,23 @@ stage('SonarQube') {
 
         stage('Remove Old Container') {
             steps {
-                bat '''
-                docker rm -f %CONTAINER_NAME% >nul 2>&1
-                '''
+                bat 'docker rm -f %CONTAINER_NAME% >nul 2>&1'
             }
         }
 
         stage('Deploy') {
             steps {
-                bat '''
-                docker run -d -p 9096:80 --name %CONTAINER_NAME% %IMAGE_NAME%:%TAG%
-                '''
+                bat 'docker run -d -p 9096:80 --name %CONTAINER_NAME% %IMAGE_NAME%:%TAG%'
             }
         }
 
-         stage('Verify Kubernetes') {
+        stage('Verify Kubernetes') {
             steps {
                 bat "kubectl get nodes"
             }
         }
-              stage('Deploy to Kubernetes') {
+
+        stage('Deploy to Kubernetes') {
             steps {
                 bat """
                 kubectl apply -f deployment.yaml --validate=false
@@ -97,7 +92,5 @@ stage('SonarQube') {
                 """
             }
         }
-    
-
     }
 }
